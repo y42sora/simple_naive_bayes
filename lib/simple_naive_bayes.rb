@@ -68,6 +68,8 @@ module SimpleNaiveBayes
       def classify(doc)
         result = classify_with_all_result(doc)
 
+        return nil unless result
+
         best = result.max_by { |classify_relust| classify_relust[1] }
         best[0]
       end
@@ -77,13 +79,14 @@ module SimpleNaiveBayes
       # return [ [category1, probability1], [category2, probability2]... ]
       def classify_with_all_result(doc)
         result = []
+        return nil unless doc
 
         @categories_count.keys().each do |category|
           # log(P(doc|cat))
           document_category = calc_document_category(doc, category)
 
           # log(P(cat)) =  log(@categories_count[cat]) - log( @all_category_num )
-          category_probability = Math.log2(@categories_count[category]) - Math.log2(@all_category_num)
+          category_probability = calc_category_probability(category)
 
           # log(P(cat|doc)) = log(P(doc|cat)) + log(P(cat))
           category_document_probability = document_category + category_probability
@@ -91,6 +94,10 @@ module SimpleNaiveBayes
           result << [category, category_document_probability]
         end
         result
+      end
+
+      def calc_category_probability(category)
+        Math.log2(@categories_count[category]) - Math.log2(@all_category_num)
       end
 
       # log(P(doc|cat)) = log(P(word1|cat)) + log(P(word2|cat)) + ....
