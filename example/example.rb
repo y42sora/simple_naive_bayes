@@ -17,3 +17,14 @@ test = ["Chinese", "Chinese", "Chinese", "Tokyo", "Japan"]
 
 p cl.classify(test)
 p cl.classify_with_all_result(test)
+
+
+
+cl = SimpleNaiveBayes::NaiveBayes.new(1)
+
+data.each do |cat, doc|
+  cl.training(cat, doc)
+end
+
+p cl.classify(test)
+p cl.classify_with_all_result(test)

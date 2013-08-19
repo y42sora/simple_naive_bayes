@@ -34,7 +34,7 @@ module SimpleNaiveBayes
     http://aidiary.hatenablog.com/entry/20100613/1276389337
 =end
 
-      def initialize()
+      def initialize(additive = 0.5)
         @all_category_num = 0
         @all_word_set = Set.new
         @categories_count = Hash.new(0)
@@ -42,7 +42,7 @@ module SimpleNaiveBayes
         @categories_word = Hash.new
         @categories_all_word_count = Hash.new(0)
         @laplace_categories_all_word_count = Hash.new(0)
-        @additive = 0.5
+        @additive = additive
       end
 
       """
